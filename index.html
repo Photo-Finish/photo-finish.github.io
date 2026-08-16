@@ -24,19 +24,19 @@
 <body><div class="card">
 <h1>AMPHOREUS</h1>
 <div class="sub">The living world of the Chrysos Heirs</div>
-<a class="btn go" id="lan_status" href="#">Open the world — this network</a>
-<a class="btn ui" id="lan_ui" href="#">Full interface — this network</a>
+<a class="btn go" href="status/">World status — the little world, live</a>
+<a class="btn ui" href="sanctuary/">Enter the Sanctuary (sign-in required)</a>
 <div class="sec">
-  <div class="h">From the Internet — constant redirects</div>
-  <a class="lnk" href="status/">World status — always current</a>
-  <a class="lnk" href="sanctuary/">The Sanctuary (sign-in required)</a>
+  <div class="h">On this network (LAN)</div>
+  <a class="lnk" id="lan_status" href="#">World status</a>
+  <a class="lnk" id="lan_ui" href="#">Full interface</a>
 </div>
-<div class="note">The “this network” addresses never change. For the
-Internet, use the constant redirects above — their URLs never change, and
-they always take you to the live world wherever it currently is.</div>
+<div class="note">The big buttons open the online world through constant
+addresses that never change. The “on this network” links reach the world
+directly on the same Wi‑Fi.</div>
 <div class="tiny" id="meta"></div>
 </div>
-<script src="config.js?1786886262"></script>
+<script src="config.js?1786886716"></script>
 <script>
  var s = window.AMPHOREUS || {};
  var set = function(id, url){ var el = document.getElementById(id);
