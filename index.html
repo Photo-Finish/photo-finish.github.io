@@ -27,14 +27,13 @@
 <a class="btn go" id="lan_status" href="#">Open the world — this network</a>
 <a class="btn ui" id="lan_ui" href="#">Full interface — this network</a>
 <div class="sec">
-  <div class="h">From the Internet — current address</div>
-  <a class="lnk" id="pub_status" href="#">World status</a>
-  <a class="lnk" id="pub_ui" href="#">The Sanctuary (sign-in required)</a>
+  <div class="h">From the Internet — constant redirects</div>
+  <a class="lnk" href="status/">World status — always current</a>
+  <a class="lnk" href="sanctuary/">The Sanctuary (sign-in required)</a>
 </div>
-<div class="note">The “this network” addresses never change — they work on any
-device that shares this world's network. The Internet address is the world's
-current public address and may change when the world restarts; this page is
-kept up to date automatically.</div>
+<div class="note">The “this network” addresses never change. For the
+Internet, use the constant redirects above — their URLs never change, and
+they always take you to the live world wherever it currently is.</div>
 <div class="tiny" id="meta"></div>
 </div>
 <script src="config.js"></script>
@@ -44,8 +43,6 @@ kept up to date automatically.</div>
                               if (el && url && url !== "#") el.href = url; };
  set("lan_status", s.lan_status);
  set("lan_ui", s.lan_ui);
- set("pub_status", s.status);
- set("pub_ui", s.ui);
  if (s.updated) {
    document.getElementById("meta").textContent = "addresses updated " + s.updated;
  }
