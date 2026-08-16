@@ -1,1 +1,1 @@
-window.AMPHOREUS = {"status": "https://carry-stage-welding-circulation.trycloudflare.com", "ui": "https://domestic-overhead-you-subsection.trycloudflare.com", "updated": "2026-08-16T20:54:57"};
+window.AMPHOREUS = {"status": "", "ui": "", "lan_status": "http://Lambda.local:8765", "lan_ui": "http://Lambda.local:8501", "updated": "2026-08-16T21:04:52"};
