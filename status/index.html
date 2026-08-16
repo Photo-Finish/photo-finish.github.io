@@ -5,19 +5,79 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Amphoreus — world status</title>
 <style>
- body{margin:0;background:#0b0a14;color:#8d84a8;font-family:system-ui,Segoe UI,sans-serif;
-      min-height:100vh;display:flex;align-items:center;justify-content:center}
+ body{margin:0;background:#0b0a14;color:#e8dfc8;font-family:system-ui,Segoe UI,sans-serif;padding:20px}
+ .wrap{max-width:720px;margin:0 auto}
+ h1{font-size:1.3rem;margin:.2rem 0}
+ h2{font-size:1rem;margin:1rem 0 .3rem}
+ h3{font-size:.95rem;margin:.9rem 0 .2rem}
+ .muted{color:#8d84a8;font-size:.8rem}
+ .badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.75rem;background:#1d1830;border:1px solid #3a3260;margin:2px}
+ table{border-collapse:collapse;width:100%;font-size:.9rem}
+ td,th{text-align:left;padding:3px 8px;border-bottom:1px solid #232038}
+ ul{margin:.2rem 0;padding-left:1.2rem;font-size:.9rem}
  a{color:#7fb0ff}
+ .off{color:#ffb45e;padding:20px;text-align:center}
 </style>
 </head>
-<body>
-<p>Opening the world status… <a id="go" href="#">click here if nothing happens</a></p>
-<script src="../config.js?1786885864"></script>
+<body><div class="wrap">
+<h1>Amphoreus — the little world, live</h1>
+<div class="muted" id="meta">…</div>
+<div id="body"><p class="off">Loading the world…</p></div>
+<div class="muted" style="margin-top:1rem"><a href="/">Back to the hub</a>
+· this page keeps its constant address and reads the live world behind the scenes.</div>
+</div>
+<script src="../config.js?1786886176"></script>
 <script>
-  var s = window.AMPHOREUS || {};
-  var url = s.status || "/";
-  document.getElementById("go").href = url;
-  window.location.replace(url);
+ var s = window.AMPHOREUS || {};
+ if (s.updated) {
+   document.getElementById("meta").textContent = "addresses updated " + s.updated;
+ }
+ var esc = function(x){ return String(x==null?"":x).replace(/[&<>\"']/g, function(c){
+   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); };
+ var el = document.getElementById("body");
+ function render(st){
+   if (!st || !st.ok) {
+     el.innerHTML = '<p class="off">The world is offline right now. It will return.</p>';
+     return;
+   }
+   var eng = st.engine_running
+     ? '<span style="color:#7fd68a">running</span>'
+     : '<span style="color:#ff8f8f">stopped</span>';
+   var sky = "";
+   if (st.weather) {
+     var ks = Object.keys(st.weather).sort();
+     if (ks.length) sky = "<h3>Sky</h3><ul>" + ks.map(function(c){
+       return "<li><b>" + esc(c) + "</b> — " + esc(st.weather[c]) + "</li>"; }).join("") + "</ul>";
+   }
+   var heirs = (st.heirs || []).slice().sort(function(a,b){
+     return (a.name||"").localeCompare(b.name||""); }).map(function(h){
+     var w = h.location;
+     if (h.traveling_to) w = w + " → " + h.traveling_to + " (" + h.road_days_left + " d)";
+     var g = (h.guest === "present" || h.guest === "away") ? " <span class='muted'>(guest)</span>" : "";
+     return "<tr><td>" + esc(h.name) + g + "</td><td>" + esc(w) + "</td><td>" + esc(h.mood) + "</td></tr>";
+   }).join("");
+   var ev = (st.recent_events || []).map(function(e){ return "<li>" + esc(e) + "</li>"; }).join("");
+   var vis = (st.visitor && st.visitor.at) ? esc(st.visitor.at) : "?";
+   el.innerHTML =
+     "<h2>" + esc(st.clock) + "</h2>" +
+     "<div><span class='badge'>" + esc(st.season) + "</span>" +
+     "<span class='badge'>" + esc(st.month) + "</span>" +
+     "<span class='badge'>" + esc(st.play_mode) + "</span>" +
+     "<span class='badge'>time ×" + esc(st.time_scale) + "</span>" +
+     "<span class='badge'>engine " + eng + "</span></div>" +
+     "<div style='margin:8px 0'>Visitor: <b>" + vis + "</b> · Mailbox unread: <b>" +
+       esc(st.mailbox_unread) + "</b></div>" +
+     sky +
+     "<h3>Heirs</h3><table><tr><th>Heir</th><th>Where</th><th>Mood</th></tr>" + heirs + "</table>" +
+     (ev ? "<h3>Recent events</h3><ul>" + ev + "</ul>" : "") +
+     '<div class="muted" style="margin-top:1rem">Live data read behind the scenes — '
+     + 'this page never changes its address.</div>';
+ }
+ var api = (s.status || "") + "/api/status";
+ fetch(api, {cache: "no-store"})
+   .then(function(r){ if (!r.ok) throw new Error("bad"); return r.json(); })
+   .then(render)
+   .catch(function(){ render(null); });
 </script>
 </body>
 </html>
