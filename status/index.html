@@ -26,7 +26,7 @@
 <div class="muted" style="margin-top:1rem"><a href="/">Back to the hub</a>
 · this page keeps its constant address and reads the live world behind the scenes.</div>
 </div>
-<script src="../config.js?1786886716"></script>
+<script src="../config.js?1786886978"></script>
 <script>
  var s = window.AMPHOREUS || {};
  if (s.updated) {
@@ -37,7 +37,10 @@
  var el = document.getElementById("body");
  function render(st){
    if (!st || !st.ok) {
-     el.innerHTML = '<p class="off">The world is offline right now. It will return.</p>';
+     el.innerHTML = '<div class="off"><div style="font-size:1.1rem;font-weight:600">'
+       + 'Oh, Zagreus stole the host machine.</div>'
+       + '<div style="margin-top:6px">The world is offline right now — it will '
+       + 'return when the machine is back online.</div></div>';
      return;
    }
    var eng = st.engine_running
