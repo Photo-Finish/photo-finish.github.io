@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amphoreus — the living world</title>
+<style>
+ body{margin:0;background:#0b0a14;color:#e8dfc8;font-family:system-ui,Segoe UI,sans-serif;
+      min-height:100vh;display:flex;align-items:center;justify-content:center}
+ .card{max-width:600px;padding:40px 28px;text-align:center}
+ h1{font-size:2.2rem;margin:0 0 .4rem;letter-spacing:.08em}
+ .sub{color:#8d84a8;margin-bottom:1.8rem}
+ .btn{display:block;margin:12px auto;padding:13px 22px;border-radius:10px;
+      text-decoration:none;font-weight:600;width:280px;max-width:90%}
+ .go{background:#1d4ed8;color:#fff}
+ .ui{background:#1d1830;color:#b9aef0;border:1px solid #3a3260}
+ .note{color:#5f5778;font-size:.78rem;margin-top:1.8rem}
+ .tiny{color:#453e63;font-size:.7rem}
+</style>
+</head>
+<body><div class="card">
+<h1>AMPHOREUS</h1>
+<div class="sub">The living world of the Chrysos Heirs</div>
+<a class="btn go" id="status" href="#">World status — the little world, live</a>
+<a class="btn ui" id="ui" href="#">Enter the Sanctuary (sign-in required)</a>
+<div class="note">This is the eternal address — it always points at the live
+world, wherever it is.</div>
+<div class="tiny" id="meta"></div>
+</div>
+<script src="config.js"></script>
+<script>
+ var s = window.AMPHOREUS || {};
+ var su = s.status || "#", uu = s.ui || "#";
+ document.getElementById("status").href = su;
+ document.getElementById("ui").href = uu;
+ if (s.updated) {
+   document.getElementById("meta").textContent = "current address updated " + s.updated;
+ }
+ setTimeout(function(){ window.location.href = su; }, 6000);
+</script>
+</body>
+</html>
