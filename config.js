@@ -1,1 +1,1 @@
-window.AMPHOREUS = {"status": "https://walking-delayed-cuts-celebs.trycloudflare.com", "ui": "https://walt-data-hydrogen-marco.trycloudflare.com", "lan_status": "http://Lambda.local:8765", "lan_ui": "http://Lambda.local:8501", "updated": "2026-08-18T19:10:57"};
+window.AMPHOREUS = {"status": "https://walking-delayed-cuts-celebs.trycloudflare.com", "ui": "https://walt-data-hydrogen-marco.trycloudflare.com", "lan_status": "http://Lambda.local:8765", "lan_ui": "http://Lambda.local:8501", "updated": "2026-08-18T19:12:17"};
