@@ -1,1 +1,1 @@
-window.AMPHOREUS = {"status": "https://cube-introductory-sender-arts.trycloudflare.com", "ui": "https://buy-occurs-and-restore.trycloudflare.com", "lan_status": "http://Lambda.local:8765", "lan_ui": "http://Lambda.local:8501", "updated": "2026-09-17T09:39:25"};
+window.AMPHOREUS = {"status": "https://cube-introductory-sender-arts.trycloudflare.com", "ui": "https://buy-occurs-and-restore.trycloudflare.com", "lan_status": "http://Lambda.local:8765", "lan_ui": "http://Lambda.local:8501", "updated": "2026-09-17T09:40:15"};
