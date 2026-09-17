@@ -20,7 +20,7 @@
 <div id="frame" style="position:fixed;inset:37px 0 0 0">
   <p class="msg">Loading the Sanctuary…</p>
 </div>
-<script src="../config.js?1787071895"></script>
+<script src="../config.js?1789609148"></script>
 <script>
  var s = window.AMPHOREUS || {};
  var url = s.ui || "";
@@ -35,18 +35,40 @@
      + '<div class="msg" style="color:#8d84a8">The world is offline right now — it will return when the machine is back online.</div>'
      + '</div>';
  }
- if (!url) { offline(); }
+ function waitingDoor(){
+   f.innerHTML = '<div style="text-align:center;padding:40px 20px">'
+     + '<div style="font-size:1.2rem;font-weight:600;color:#e8dfc8">The host is awake.</div>'
+     + '<div class="msg" style="color:#8d84a8">The Sanctuary door is still unlocking — wait a moment and refresh.</div>'
+     + '</div>';
+ }
+ function ping(base, path){
+   return fetch(base + path + (path.indexOf("?") >= 0 ? "&" : "?") + "t=" + Date.now(), {
+     cache: "no-store", mode: "cors"
+   }).then(function(r){ if (!r.ok) throw new Error("bad"); return r; });
+ }
+ function hostUp(){
+   var probes = [];
+   if (s.status) {
+     probes.push(ping(s.status, "/healthz"));
+     probes.push(ping(s.status, "/api/status"));
+   }
+   if (url) {
+     probes.push(ping(url, "/_stcore/health"));
+     probes.push(ping(url, "/healthz"));
+   }
+   if (!probes.length) return Promise.reject(new Error("no-url"));
+   return Promise.any(probes);
+ }
+ if (!s.status && !url) { offline(); }
  else {
-   // Probe the world before embedding: if the machine is offline, show the
-   // funny message instead of a raw tunnel error inside the frame. A couple of
-   // retries ride over the browser's occasional first-connection hiccup.
    var tries = 0;
    var probe = function(){
-     fetch((s.status || url) + "/healthz", {cache: "no-store"})
-       .then(function(r){ if (!r.ok) throw new Error("bad"); embed(); })
+     hostUp()
+       .then(function(){ if (url) embed(); else waitingDoor(); })
        .catch(function(){
          tries++;
-         if (tries < 3) { setTimeout(probe, 1000); } else { offline(); }
+         if (tries < 6) { setTimeout(probe, 1200); }
+         else { offline(); }
        });
    };
    probe();
